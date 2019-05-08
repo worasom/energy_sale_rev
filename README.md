@@ -6,8 +6,8 @@ Estimating the electricity consumption is an important part of energy planning. 
 
 1. [Data Sources](#sources)
 2. [Analysis Procedure](#procedure)
-3. [Data Clean Up](#cleanup)
-4. [Exploratory Data Analysis](#epa)
+3. [Data Clean Up](#cleanup) and [Exploratory Data Analysis]
+4. [Data Relationship](#epa)
 5. [Machine Learning Models](#ml)
 6. [Model Performance](#performance)
 
@@ -30,10 +30,9 @@ The data are from the following sources:
 - Exploratory data analysis [notebook](https://github.com/worasom/energy_sale_rev/blob/master/EPA_energy_data.ipynb)
 - Feature selection and built  machine learning models for the three sectors in [notebook](https://github.com/worasom/energy_sale_rev/blob/master/energy-ML.ipynb).
 
-## Data Clean Up<a id='cleanup'></a> 
+## Data Clean Up<a id='cleanup'></a> [notebook](https://github.com/worasom/energy_sale_rev/blob/master/clean_energy_data.ipynb) and Explore Data [notebook](https://github.com/worasom/energy_sale_rev/blob/master/EPA_energy_data.ipynb)
 
-### Electricity Data 
-Obtained report sales, revenue, number of account and prices from three sections of EIA website. The file sale_revenue_by_state.csv from [link](https://www.eia.gov/electricity/data.php#sales,) contains sales, revenues, prices and number of accounts all the way back to 1990, but lack recent data in 2019. This data is merged with another sets are from the EIA's interactive web [link](https://www.eia.gov/electricity/data/browser/), and [link](https://www.eia.gov/electricity/sales_revenue_price/).
+**Electricity Data**:Obtained sales, revenue, number of account and prices from three sections of EIA website. The file sale_revenue_by_state.csv from [link](https://www.eia.gov/electricity/data.php#sales,) contains sales, revenues, prices and number of accounts all the way back to 1990, but lack recent data in 2019. This data is merged with another sets are from the EIA's interactive web [link](https://www.eia.gov/electricity/data/browser/), and [link](https://www.eia.gov/electricity/sales_revenue_price/).
 
 For sales, revenue, prices and number of customer accounts I did the following procedures
 
@@ -43,36 +42,6 @@ For sales, revenue, prices and number of customer accounts I did the following p
 - Merge data.
 - Export files as .csv
 
-### Population Data
-
-We want to get a monthly the population data for each state, which does not exist. Fortunately, St. Louis Frederal Economic Data provide some estimation based on the Census data. From projection of US monthly population, use annual population by state to calculate the monthly population by state. 
-
-## #Heating and Cooling days by State
-
-Monthly weather data from ftp://ftp.ncdc.noaa.gov/pub/data/cirs/climdiv/. Each row corresponds to a year of monthly data for that state. The columned are stored in state code, thus need to be reformated. The data for Alaska is missing. 
-
-### Unempolyment by State 
-
-St. Louis Frederal provides a monthly unempolyment by state for example https://fred.stlouisfed.org/series/CAUR. After downloading the data for each state using the API, the data are reformated.
- 
-### Personal Income by State
-
-St. Louis Frederal provides a quarterly total personal income by state example, https://fred.stlouisfed.org/series/ALOTOT. The income is project by forward fill to obtain a monthly data.
-
-### Consumer Price Index US
-
-St. Louis Frederal summarizes a monthly consumer price index excluding food and electricity in https://fred.stlouisfed.org/series/CPILFENS. The same numer is used for all states. 
-
-### GDP per state (GSP) 
-
-There are annual GSP by state from https://apps.bea.gov/regional/downloadzip.cfm, and quarterly GSP by state from https://fred.stlouisfed.org. The data are put together and forward fill to obtain a monthly data.
-
-### Regional group
-
-EIA group the states into sub regions. This group could be usedful as a feature and visualization. The regional group is extracted for the descrption column in EIA data. 
-
-## Exploratory Data Analysis<a id='epa'></a> 
-
 Explore relationship between the electricity sale and revenue. Since revenue follow a linear relationship with consumption with slope as retail price. Being able to predict the consumption also means predicting the revenue.
 
 ![](https://github.com/worasom/energy_sale_rev/blob/master/plots/fig1.png) 
@@ -80,18 +49,45 @@ Explore relationship between the electricity sale and revenue. Since revenue fol
 The tree major sectors: residential, industrial and commercial accounts for 98.5% of the total consumption. The rest 1.5% are transportation and other sector. 
 ![](https://github.com/worasom/energy_sale_rev/blob/master/plots/fig2.png)
 
-The dedogram below shows relationship among the fetures for the Residential sector. The population are highly correlated to the consumption. 
-
-![](https://github.com/worasom/energy_sale_rev/blob/master/plots/fit3.png)
-
-Similarly, population also highly correlated with the commercial consumption
-![](https://github.com/worasom/energy_sale_rev/blob/master/plots/fit5.png)
-
 Since all models consider state population as the most important feature, it is worth looking at the consumption per population for each state.
 
 ![](https://github.com/worasom/energy_sale_rev/blob/master/plots/plot1.png) 
 
 This plot shows average electricity consumption per capita by state in 2018, segmented into the consumption for the residential, industrial, and commercial sectors. Within each plot, the states are first grouped by regions, then sorted by the latitude of the state. For residential consumption, one might expect that electricity consumption would be higher in the northern states, because of the necessity of heating during their long, severe winters; however, the southern states actually top the electricity consumption charts.  This suggests that the number of days that requires air conditioning usage (number of cooling days) and regional information are likely important features in the model. For the industrial sector, the consumption also has a strong regional trend, against suggesting that regional information is an important feature for this sector. For the commercial sector, except for DC, the consumption is pretty uniform, thus the regional information is likely not important. 
+
+
+**Population Data**:We want to get a monthly the population data for each state, which does not exist. Fortunately, St. Louis Frederal Economic Data provide some estimation based on the Census data. From projection of US monthly population, use annual population by state to calculate the monthly population by state. 
+
+**Heating and Cooling days by State**:Monthly weather data from ftp://ftp.ncdc.noaa.gov/pub/data/cirs/climdiv/. Each row corresponds to a year of monthly data for that state. The columned are stored in state code, thus need to be reformated. The data for Alaska is missing. 
+
+**Unempolyment by State**:St. Louis Frederal provides a monthly unempolyment by state for example https://fred.stlouisfed.org/series/CAUR. After downloading the data for each state using the API, the data are reformated.
+ 
+**Personal Income by State**:St. Louis Frederal provides a quarterly total personal income by state example, https://fred.stlouisfed.org/series/ALOTOT. The income is project by forward fill to obtain a monthly data.
+
+**Consumer Price Index US**:St. Louis Frederal summarizes a monthly consumer price index excluding food and electricity in https://fred.stlouisfed.org/series/CPILFENS. The same numer is used for all states. 
+
+**GDP per state (GSP)**:There are annual GSP by state from https://apps.bea.gov/regional/downloadzip.cfm, and quarterly GSP by state from https://fred.stlouisfed.org. The data are put together and forward fill to obtain a monthly data.
+
+**Regional group**: EIA group the states into sub regions. This group could be usedful as a feature and visualization. The regional group is extracted for the descrption column in EIA data. 
+
+
+## Data Relationship<a id='epa'></a> [notebook](https://github.com/worasom/energy_sale_rev/blob/master/EPA_energy_data.ipynb)
+
+The dedogram below shows relationship among the fetures for the Residential sector based on spearman correlation. 
+
+![](https://github.com/worasom/energy_sale_rev/blob/master/plots/fig3.png)
+
+Population and number of customer are related. The GSP, income and Sale revenue are closely related. The number of heating and day is related to the location of the state. The revenue columns will not be fed into the model because of the direct relationship with the sale. Consider dropping one of the close relationship feature pairs: year and CPI, population and number of customer.
+
+For the industrial sector, the dendogram is 
+
+![](https://github.com/worasom/energy_sale_rev/blob/master/plots/fig4.png)
+
+Again the revenue data will not be fed into the model. Similarly, close relationship feature pairs: year and CPI, population and number of customer, and GSP and income might be dropped.
+
+Similarly, close relationship pairs were observed for the commercial consumption.
+![](https://github.com/worasom/energy_sale_rev/blob/master/plots/fig5.png)
+
 
 
 ## Machine Learning Models<a id='ml'></a> 
