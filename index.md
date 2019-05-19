@@ -38,4 +38,4 @@ The data are from the following sources:
 ## Data Clean Up<a id='cleanup'></a> [notebook](https://github.com/worasom/energy_sale_rev/blob/master/clean_energy_data.ipynb) and Explore Data [notebook](https://github.com/worasom/energy_sale_rev/blob/master/EPA_energy_data.ipynb)
 
 The tree major sectors: residential, industrial and commercial accounts for 98.5% of the total consumption. The rest 1.5% are transportation and other sector. 
-![](https://github.com/worasom/energy_sale_rev/blob/master/plots/fig2.png)
+![](plots/fig2.png)
