@@ -6,6 +6,10 @@ Estimating the electricity consumption is an important part of energy planning. 
 
 The consumption for each sector is predicted using a different machine learning model. The models use the number of electricity customer accounts, electricity prices, and economic data such as population by state, gross domestic product by state (GSP), and weather data. i.e. monthly heating and cooling days. The ability to predict the electricity consumption, and the major contributing factors would not only help with infrastructure planning, economical projection, coming energy efficient products but also estimation of electricity sales revenue.  
 
+The picture below shows monthly electricity consumption in each sector in California. Seasonal pattern is seen for all sectors. This means that the features must included features with similar seasonal patterns.
+
+![](plots/fig12.png)
+
 After gathering all the data, I work on cleaning up the data. Sometimes I obtained the same data from two places. I check the consistency of the data and the units. Checking the units are important because the same number are often reported in more than one places, but in different units (mega, million or billion). I also found some mistake on the website. The unit in STEO website is billion kilowatthours, but should  be be million kilowatt hours. The total monthly consumption for the US is around 300,000 million kWh which is about 10,000 kWh per day. If the unit in the STEO is really billion kWh, then the projection is off by 1000 times. 
 
 Some of the data are not report monthly, thus I have to filling the missing data by forward fill (for the next phase of the project I will use interpolation). The electricity consumption data starts on Jan, 1990 to  Feb, 2019. There are 50 states + DC, but the data for weather data for Alaska and Hawaii are missing, thus omitted in this analysis.The GSP data end on October 2018. After removing the missing data, I end up with approximately 17000 rows, is about 13 MB in size. I allocate test set to be data starting on 2015.
