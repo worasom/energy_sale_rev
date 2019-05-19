@@ -73,21 +73,11 @@ This plot shows average electricity consumption per capita by state in 2018, seg
 
 ## Data Relationship<a id='epa'></a> [notebook](https://github.com/worasom/energy_sale_rev/blob/master/EPA_energy_data.ipynb)
 
-The dedogram below shows relationship among the fetures for the Residential sector based on spearman correlation. 
+The dedogram below shows relationship among the fetures based on spearman correlation. 
 
-![](https://github.com/worasom/energy_sale_rev/blob/master/plots/fig3.png)
+![](plots/fig16.png)
 
 Population and number of customer are related. The GSP, income and Sale revenue are closely related. The number of heating and day is related to the location of the state. The revenue columns will not be fed into the model because of the direct relationship with the sale. Consider dropping one of the close relationship feature pairs: year and CPI, population and number of customer.
-
-For the industrial sector, the dendogram is 
-
-![](https://github.com/worasom/energy_sale_rev/blob/master/plots/fig4.png)
-
-Again the revenue data will not be fed into the model. Similarly, close relationship feature pairs: year and CPI, population and number of customer, and GSP and income might be dropped.
-
-Similarly, close relationship pairs were observed for the commercial consumption.
-![](https://github.com/worasom/energy_sale_rev/blob/master/plots/fig5.png)
-
 
 
 ## Machine Learning Models<a id='ml'></a> 
