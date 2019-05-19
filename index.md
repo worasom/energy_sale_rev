@@ -8,17 +8,22 @@ The consumption for each sector is predicted using a different machine learning 
 
 The picture below shows monthly electricity consumption in each sector in California. Seasonal pattern is seen for all sectors. This means that the features must included features with similar seasonal patterns.
 
+![](plots/fig13.png)
+
+After gathering all the data, I worked on cleaning up the data. Sometimes the same data are reported in two places. I checked the consistency of the data and the units. Checking the units are important because the same number are often reported in more than one places, but in different units (mega, million or billion). I  found some mistake on the EIA website. The unit in STEO website is billion kilowatthours, but should be  million kilowatt hours. The total monthly consumption for the US is around 300,000 million kWh. STEO said the consumption is 300,000 **billion** kWh If the unit is really billion kWh, then the STEO projection is off by 1000 times. 
+
+For the economics data, some data are not report monthly, thus I have to filling the missing data by forward fill (for the next phase of the project I will use linear interpolation). The electricity consumption data starts on Jan, 1990 to  Feb, 2019. There are 50 states + DC, but the data for weather data for Alaska and Hawaii are missing, thus omitted in this analysis.The GSP data end on September 2018. After removing the missing data, I end up with approximately 17000 rows, is about 13 MB in size. Data set from 2015 on ward is allocated as the test set. The picture below shows hiearachial relationship between all features. 
+
+![](plots/fig16.png)
+
+I built three machine learning models for the three sectors. For each sector, random forest regressor was employed for feature selections and hyperparameter tuning. The datasets were split datasets into train, validation and test set by order of occurrence, then feature selections was made using feature of importance. Then, a better model and parameters were search using TPOT library (AutoML). The model were retrained again using train+validation set. The models acehieve 0.98 - 0.99 r-square for each sector, which transfer to about 0.99 overall R-squared for the total consumption. STEO prediction has 0.9999 R-square (almost exact). The time-series prediction to the actual consumption and short-term energy outlook report from EIA website. The prediction is deployed on heroku appation https://worasom-energy.herokuapp.com/app. In this application, a user can observe time-series prediction for the sector, and state they are interested in. The picture below shows screen shot of the app.
+
+![](plots/fig14.png)
+
+In the next phase of the project, I plan to perform prediction for 2020 consumption. I plan to include confidence interval in the projection. This is achieve by first projecting all features required  by the models with linear autoregressive model. For the application, I will also improve the aesthetic for the applications, and include import informations. In term of model performance, I did some analysis and identify some states that the models have difficulty prediction their electricity consumptions as shown below. I will also try to improve the model performance for in these states, which might be achieved by creating separates model for these states. 
+
 ![](plots/fig12.png)
 
-After gathering all the data, I work on cleaning up the data. Sometimes I obtained the same data from two places. I check the consistency of the data and the units. Checking the units are important because the same number are often reported in more than one places, but in different units (mega, million or billion). I also found some mistake on the website. The unit in STEO website is billion kilowatthours, but should  be be million kilowatt hours. The total monthly consumption for the US is around 300,000 million kWh which is about 10,000 kWh per day. If the unit in the STEO is really billion kWh, then the projection is off by 1000 times. 
-
-Some of the data are not report monthly, thus I have to filling the missing data by forward fill (for the next phase of the project I will use interpolation). The electricity consumption data starts on Jan, 1990 to  Feb, 2019. There are 50 states + DC, but the data for weather data for Alaska and Hawaii are missing, thus omitted in this analysis.The GSP data end on October 2018. After removing the missing data, I end up with approximately 17000 rows, is about 13 MB in size. I allocate test set to be data starting on 2015.
-
-I built three machine learning models for the three sectors. For each sector, I started with random forest regressor, split datasets into train, validation and test set by order of occurrence, then perform  feature selection using feature of importance. Then, I search for the best model and parameters in TPOT. At the end I got 0.98 - 0.99 r-square on each sector, which transfer to about 0.99 overall R-squared for the total consumption. STEO prediction has 0.9999 R-square (almost exact). Then I compare my time-series prediction to the actual consumption and short-term energy outlook report from EIA website. I deploy the time-series prediction on heroku app https://worasom-energy.herokuapp.com/app. In this app, a user can observe time-series prediction for the sector, and state they are interested in. 
-
-In the next phase of the project, I plan to perform prediction for 2020 consumption. I plan to include confidence interval in the projection. This is achieve by first projecting all features required  by the models with linear autoregressive model. For the application, I will also improve the aesthetic for the applications, and include import informations. In term of model performance, I did some analysis and identify some states that the models have difficulty prediction their electricity consumptions. I will also try to improve the model performance for in these states, which might be achieved by creating separates model for these states. 
-
-Note: the unit in STEO website is billion kilowatthours, but should  be be million kilowatt hours. The total monthly consumption for the US is around 300,000 million kWh which is about 10,000 kWh per day. If the unit in the STEO is really billion kWh, then the projection is off by 1000 times. 
 
 
 ## Table of Contents
@@ -29,6 +34,7 @@ Note: the unit in STEO website is billion kilowatthours, but should  be be milli
 4. [Data Relationship](#epa)
 5. [Machine Learning Models](#ml)
 6. [Model Performance](#performance)
+7. Prediction App [Repository](https://github.com/worasom/energy_app)
 
 ## Data Sources<a id='sources'></a>
 
