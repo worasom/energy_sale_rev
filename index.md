@@ -50,14 +50,14 @@ The data are from the following sources:
 
 ## Analysis Procedure<a id='procedure'></a> 
 
-- Obtain data by downloading and using web API [notebook](https://github.com/worasom/energy_sale_rev/blob/master/api.ipynb)
-- Extensive feature engineering, cross checking the accuracy and consistency of the data. Clean up the missing data [notebook](https://github.com/worasom/energy_sale_rev/blob/master/clean_energy_data.ipynb). The cleaned data has approximately 17000 rows, is about 13 MB in size, and can be found in [folder](https://github.com/worasom/energy_sale_rev/tree/master/clean-data). 
-- Exploratory data analysis [notebook](https://github.com/worasom/energy_sale_rev/blob/master/EPA_energy_data.ipynb)
-- Feature selection and built machine learning models for the three sectors,  analyse model performance by state [notebook](https://github.com/worasom/energy_sale_rev/blob/master/energy-ML.ipynb). Plot time-series prediction.
+- Obtain data by downloading and using web API [notebook](api.ipynb)
+- Extensive feature engineering, cross checking the accuracy and consistency of the data. Clean up the missing data [notebook](clean_energy_data.ipynb). The cleaned data has approximately 17000 rows, is about 13 MB in size, and can be found in [folder](https://github.com/worasom/energy_sale_rev/tree/master/clean-data). 
+- Exploratory data analysis [notebook](EPA_energy_data.ipynb)
+- Feature selection and built machine learning models for the three sectors,  analyse model performance by state [notebook](energy-ML.ipynb). Plot time-series prediction.
 - Model prediction deployment [Repository](https://github.com/worasom/energy_app)
 
 
-## Data Clean Up<a id='cleanup'></a> [notebook](https://github.com/worasom/energy_sale_rev/blob/master/clean_energy_data.ipynb) and Explore Data [notebook](https://github.com/worasom/energy_sale_rev/blob/master/EPA_energy_data.ipynb)
+## Data Clean Up<a id='cleanup'></a> [notebook](clean_energy_data.ipynb) and Explore Data [notebook](EPA_energy_data.ipynb)
 
 **Electricity Data**:Obtained sales, revenue, number of account and prices from three sections of EIA website. The file sale_revenue_by_state.csv from [link](https://www.eia.gov/electricity/data.php#sales,) contains sales, revenues, prices and number of accounts all the way back to 1990, but lack recent data in 2019. This data is merged with another sets are from the EIA's interactive web [link](https://www.eia.gov/electricity/data/browser/), and [link](https://www.eia.gov/electricity/sales_revenue_price/).
 
@@ -71,14 +71,14 @@ For sales, revenue, prices and number of customer accounts I did the following p
 
 Explore relationship between the electricity sale and revenue. Since revenue follow a linear relationship with consumption with slope as retail price. Being able to predict the consumption also means predicting the revenue.
 
-![](https://github.com/worasom/energy_sale_rev/blob/master/plots/fig1.png) 
+![](plots/fig1.png) 
 
 The tree major sectors: residential, industrial and commercial accounts for 98.5% of the total consumption. The rest 1.5% are transportation and other sector. 
-![](https://github.com/worasom/energy_sale_rev/blob/master/plots/fig2.png)
+![](plots/fig2.png)
 
 Since all models consider state population as the most important feature, it is worth looking at the consumption per population for each state.
 
-![](https://github.com/worasom/energy_sale_rev/blob/master/plots/plot1.png) 
+![](plots/plot1.png) 
 
 This plot shows average electricity consumption per capita by state in 2018, segmented into the consumption for the residential, industrial, and commercial sectors. Within each plot, the states are first grouped by regions, then sorted by the latitude of the state. For residential consumption, one might expect that electricity consumption would be higher in the northern states, because of the necessity of heating during their long, severe winters; however, the southern states actually top the electricity consumption charts.  This suggests that the number of days that requires air conditioning usage (number of cooling days) and regional information are likely important features in the model. For the industrial sector, the consumption also has a strong regional trend, against suggesting that regional information is an important feature for this sector. For the commercial sector, except for DC, the consumption is pretty uniform, thus the regional information is likely not important. 
 
@@ -97,8 +97,7 @@ This plot shows average electricity consumption per capita by state in 2018, seg
 
 **Regional group**: EIA group the states into sub regions. This group could be usedful as a feature and visualization. The regional group is extracted for the descrption column in EIA data. 
 
-
-## Data Relationship<a id='epa'></a> [notebook](https://github.com/worasom/energy_sale_rev/blob/master/EPA_energy_data.ipynb)
+## Data Relationship<a id='epa'></a> [notebook](EPA_energy_data.ipynb)
 
 The dedogram below shows relationship among the fetures based on spearman correlation. 
 
@@ -120,17 +119,17 @@ Build a Machine learning model for each sector using the following procedure:
 
 **Splitting the data** We have the data from Jan 1990 to Sept 2018. The time-series data cannot be split by random shuffle, and have to be split by order of occurance. For hyper parameter tuning and model searching in TPOT. The data were split into train (64%), validation(20%) and test(15%) sets using the function `three_split`. The model is retrained using the train+validation set using the function `two_split`. The test set is used to evaluate the model performance. The fiture belows show the splitting for hyperparamter tuning and for final model.
 
-![](https://github.com/worasom/energy_sale_rev/blob/master/plots/fig15.png)
+![](plots/fig15.png)
 
 Use random forest regressor to predict the electricity sale for each sector. After hyperparameter tuning, the model achieve 0.95 - 0.97 R-squared on the test set (15% of the data). 
 
 The figure below shows features selected by the model for residential, industrial and commercial sectors.
 
-![](https://github.com/worasom/energy_sale_rev/blob/master/plots/fig17.png)
+![](plots/fig17.png)
 
 The selected features were feed into TPOT for model selection and hyperparameter tuning. After training with the training+validation set, the model for each section achieve 0.98 - 0.99 R-square. The predictions for the three sectors are summed together, and the R-squared score is calculated against the actual data. The overall R-squared is 0.99. The picture below summarizes model performance for each sector.
 
-![](https://github.com/worasom/energy_sale_rev/blob/master/plots/fig9.png)
+![](plots/fig9.png)
 
 
 
@@ -138,17 +137,17 @@ The selected features were feed into TPOT for model selection and hyperparameter
 
 I analyze the machine learning model performance by state. The picture below shows R-square for each sector and state. Although the model obtain 0.99 R-square, the model poorly perform on some states.  
 
-![](https://github.com/worasom/energy_sale_rev/blob/master/plots/fig12.png)
+![](plots/fig12.png)
 
 For the residential sector, the model perform poorly in WI, NH and CO, which are northern state and low population density.  For the industrial sector, the model did poorly on DC. For the commercial sector, VT, NH, WI are the worst. Overall, the model did poorly in predicting consumption in VT, NH, WI.
 
 The figure below coompares the time-series prediction and the actual data for the three best and the worst prediction. The prediction capture seasonal pattern of the data, but over estimate the consumption in VI, NH and WI.
 
-![](https://github.com/worasom/energy_sale_rev/blob/master/plots/fig11.png)
+![](plots/fig11.png)
 
 Plotting the model performance on the map, we see that the model performs well on the southern states, which have high population and high consumption (blue). But the model prediction of the electricity consumption of the sparsely populated northern and mountain regions states is poor (red). Improving prediction in these states may involve having separate ML for these states. 
 
-![](https://github.com/worasom/energy_sale_rev/blob/master/plots/plot2.png)
+![](plots/plot2.png)
 
 
 ##  Model Deployment on Heroku<a id='app'></a>  
