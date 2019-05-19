@@ -6,7 +6,7 @@ Estimating the electricity consumption is an important part of energy planning. 
 
 1. [Data Sources](#sources)
 2. [Analysis Procedure](#procedure)
-3. [Data Clean Up](#cleanup) and [Exploratory Data Analysis]
+3. [Data Clean Up](#cleanup) and Exploratory Data Analysis
 4. [Data Relationship](#epa)
 5. [Machine Learning Models](#ml)
 6. [Model Performance](#performance)
