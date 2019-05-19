@@ -33,3 +33,9 @@ The data are from the following sources:
 - Extensive feature engineering, cross checking the accuracy and consistency of the data. Clean up the missing data [notebook](https://github.com/worasom/energy_sale_rev/blob/master/clean_energy_data.ipynb). The cleaned data has approximately 17000 rows, is about 13 MB in size, and can be found in [folder](https://github.com/worasom/energy_sale_rev/tree/master/clean-data). 
 - Exploratory data analysis [notebook](https://github.com/worasom/energy_sale_rev/blob/master/EPA_energy_data.ipynb)
 - Feature selection and built  machine learning models for the three sectors in [notebook](https://github.com/worasom/energy_sale_rev/blob/master/energy-ML.ipynb).
+
+
+## Data Clean Up<a id='cleanup'></a> [notebook](https://github.com/worasom/energy_sale_rev/blob/master/clean_energy_data.ipynb) and Explore Data [notebook](https://github.com/worasom/energy_sale_rev/blob/master/EPA_energy_data.ipynb)
+
+The tree major sectors: residential, industrial and commercial accounts for 98.5% of the total consumption. The rest 1.5% are transportation and other sector. 
+![](https://github.com/worasom/energy_sale_rev/blob/master/plots/fig2.png)
