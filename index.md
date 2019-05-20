@@ -20,9 +20,11 @@ I built three machine learning models, one for each of the three sectors. For ea
 
 ![](plots/fig14.png)
 
-In the next phase of the project, I will perform predictions for 2020 consumption. I will include a confidence interval for my projections. This is achieved by first projecting all features required by the models with a linear autoregressive model. For the web application, I will also improve the aesthetics of the application and include a statistical summary. In terms of model performance, I have identified some states that the models have difficulty predicting the electricity consumptions for, as shown below. I will try to improve the model performance for these states, which might be achieved by creating separates model for these states. 
+In the next phase of the project, I will perform predictions for 2020 consumption. I will include a confidence interval for my projections. This is achieved by first projecting all features required by the models with a linear autoregressive model. For the web application, I will also improve the aesthetics of the application and include a statistical summary. In terms of model performance, I have identified some states that the models have difficulty predicting the electricity consumptions for, as shown below. I will try to improve the model performance for these states, which might be achieved by creating separates model for these states. Lastly, I plan to automate this pipeline: data acqusition, formatting, machine learning and deploying the prediction.
 
 ![](plots/fig12.png)
+
+Detail analysis procedure can be found below.
 
 
 ## Table of Contents
@@ -144,7 +146,6 @@ The selected features were feed into TPOT for model selection and hyperparameter
 ![](plots/fig9.png)
 
 
-
 ## Model Performance<a id='performance'></a>  
 
 I analyzed the machine learning model performance by state. The picture below shows R-square for each sector and state. Although the model obtain 0.99 R-square, the model performed poorly on some states.  
@@ -171,4 +172,4 @@ Monthly prediction, actual data and STEO from 2015 onwards are saved as a .csv f
 
 In summary, this project aims to predict monthly electricity consumption for each state in the US using population, weather, and economic data. Separate machine learning models were constructed for each of the three main electricity consumption sectors (residential, industrial, and commercial). The models acehieved 0.98 - 0.99 r-square for each sector, which translates to approximately 0.99 overall R-squared for the total consumption. The US EIA STEO prediction has 0.9999 R-square (almost exact). The time-series predictions are compared with the actual consumption and short-term energy outlook report from the EIA website. The prediction is deployed on heroku at https://worasom-energy.herokuapp.com/app.
 
-In the next phase of the project, I will perform predictions for 2020 consumption. I will include a confidence interval for my projections. This is achieved by first projecting all features required by the models with a linear autoregressive model. For the web application, I will also improve the aesthetics of the application and include a statistical summary. In terms of model performance, I have identified some states that the models have difficulty predicting the electricity consumptions for, as shown below. I will try to improve the model performance for these states, which might be achieved by creating separates model for these states. 
+In the next phase of the project, I will perform predictions for 2020 consumption. I will include a confidence interval for my projections. This is achieved by first projecting all features required by the models with a linear autoregressive model. For the web application, I will also improve the aesthetics of the application and include a statistical summary. In terms of model performance, I have identified some states that the models have difficulty predicting the electricity consumptions for, as shown below. I will try to improve the model performance for these states, which might be achieved by creating separates model for these states. Lastly, I plan to automate this pipeline: data acqusition, formatting, machine learning and deploying the prediction.
