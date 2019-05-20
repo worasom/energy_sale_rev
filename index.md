@@ -20,7 +20,7 @@ I built three machine learning models, one for each of the three sectors. For ea
 
 ![](plots/fig14.png)
 
-In the next phase of the project, I will perform predictions for 2020 consumption. I will include a confidence interval for my projections. This is achieved by first projecting all features required by the models with a linear autoregressive model. For the web application, I will also improve the aesthetics of the application and include a statistical summary. In terms of model performance, I have identified some states that the models have difficulty predicting the electricity consumptions for, as shown below. I will try to improve the model performance for these states, which might be achieved by creating separates model for these states. Lastly, I plan to automate this pipeline: data acqusition, formatting, machine learning and deploying the prediction.
+In the next phase of the project, I will perform predictions for 2020 consumption. I will include a confidence interval for my projections. This is achieved by first projecting all features required by the models with a linear autoregressive model. For the web application, I will also improve the aesthetics of the application and include a statistical summary. In terms of model performance, I have identified some states that the models have difficulty predicting the electricity consumptions for, as shown below. I will try to improve the model performance for these states, which might be achieved by creating separates model for these states. Lastly, I plan to automate the anaylsis pipeline: data acqusition, formatting, machine learning and deploying the prediction.
 
 ![](plots/fig12.png)
 
@@ -42,7 +42,8 @@ Detail analysis procedure can be found below.
 
 The data comes from the following sources:
 
-- Monthly energy consumption, revenue, prices, and number of customer by sector by state since 1990 from https://www.eia.gov/electricity/data.php#sales, https://www.eia.gov/electricity/data/browser/, and https://www.eia.gov/electricity/sales_revenue_price/. The sectors are residential, commercial, transportation, and other. There are 50 states + 1 for DC.  
+- Monthly energy consumption, revenue, prices, and number of customer by sector by state since 1990 from https://www.eia.gov/electricity/data.php#sales, https://www.eia.gov/electricity/data/browser/, and https://www.eia.gov/electricity/sales_revenue_price/. The sectors are residential, commercial, transportation, and other. There are 50 states + 1 for DC. 
+- Monthly short-term estimated eletricity consumption from short-term energy outlook (STEO), https://www.eia.gov/outlooks/steo/data/browser/.
 - Population by state from https://fred.stlouisfed.org, example, https://fred.stlouisfed.org/series/ALPOP
 - Monthly number of heating and cooling days by state from National Centers for Environmental Information, https://www.ncdc.noaa.gov/ushcn/data-access. There is no data from Alaska and Hawaii. 
 - Monthly unemployment rate by state from Federal Reserve Bank of St. Louis, https://fred.stlouisfed.org. example , https://fred.stlouisfed.org/series/CAUR
@@ -60,6 +61,8 @@ The data comes from the following sources:
 
 
 ## Data Clean Up<a id='cleanup'></a> [notebook](clean_energy_data.ipynb) and Explore Data [notebook](EPA_energy_data.ipynb)
+
+After gathering all the data, I worked on cleaning up the data, checking for consistency and looking for errors. The same data is often reported in more than one place, but in different units (mega, million or billion).
 
 **Electricity Data**:Obtained sales, revenue, number of account and prices from three sections of EIA website. The file sale_revenue_by_state.csv from [link](https://www.eia.gov/electricity/data.php#sales,) contains sales, revenues, prices and number of accounts all the way back to 1990, but lacks recent data from 2019. This data is merged with other sets of data from the EIA's interactive website [link](https://www.eia.gov/electricity/data/browser/), and [link](https://www.eia.gov/electricity/sales_revenue_price/).
 
@@ -84,6 +87,9 @@ Since all models consider state population as the most important feature, it is 
 
 This plot shows the average electricity consumption per capita by state in 2018, segmented into residential, industrial, and commercial consumption. Within each plot, the states are first grouped by regions, then sorted by the latitude of the state. For residential consumption, one might expect that electricity consumption would be higher in the northern states, because of the necessity of heating during their long, severe winters; however, the southern states actually top the electricity consumption charts.  This suggests that the number of days that require air conditioning usage (number of cooling days) and regional information are likely important features in the model. For the industrial sector, the consumption also has a strong regional trend, again suggesting that regional information is an important feature for this sector. For the commercial sector, except for DC, the consumption is pretty uniform, thus the regional information is likely not important. 
 
+**STEO data** EIA reports estimation of future electricity consumption in short-term energy outlook (STEO) in https://www.eia.gov/outlooks/steo/data/browser/. The data went back to 2015. I discovered a mistake on the EIA website. The unit on the short-term energy outlook (STEO) website is given as billion kilowatthours, but should be million kilowatt hours. The total monthly consumption for the US is around 300,000 million kWh, not 300,000 **billion** kWh as reported by STEO.  
+
+
 
 **Heating and Cooling days by State**: Heating and cooling degree day measure the dmain for energy to heat and cool the building. This is calculated and reported in the monthly weather data in ftp://ftp.ncdc.noaa.gov/pub/data/cirs/climdiv/. Each row corresponds to a year of monthly data for that state. The columns are stored in state code, and thus need to be reformatted. The data for Alaska and Hawaii is missing. 
 
@@ -104,7 +110,6 @@ Although the economical indicator such as Population, Personal Income, and GSP d
 
 ![](plots/fig21.png) ![](plots/fig22.png)![](plots/fig23.png)
 
-
 **Unempolyment by State**:St. Louis Frederal provides a monthly unempolyment by state, for example https://fred.stlouisfed.org/series/CAUR. After downloading the data for each state using the API, the data is reformatted.
 
 **Regional group**: EIA groups the states into sub regions. This group may be usedful as a feature and visualization. The regional group is extracted for the descrption column in EIA data. EIA's regional group are shown below.
@@ -113,11 +118,11 @@ Although the economical indicator such as Population, Personal Income, and GSP d
 
 ## Data Relationship<a id='epa'></a> [notebook](EPA_energy_data.ipynb)
 
-The dedogram below shows the relationship among the features based on Spearman correlation. 
+The electricity consumption data covers Jan, 1990 to Feb, 2019. There are 50 states + DC, but because the weather data for Alaska and Hawaii are missing, I omit them from the analysis. The GSP data ends on September 2018. After removing the missing data, I end up with approximately 17000 rows of data, approximately 13 MB in size. Data from 2015 onward is allocated as the test set. The dedogram below shows relationship among the fetures based on spearman correlation. 
 
 ![](plots/fig16.png)
 
-Population and Number of customers are related. The GSP, Income and Sales revenue are closely related. The Number of heating days is related to the Location of the state. The Revenue columns will not be fed into the model because of the direct relationship with Sales revenue. Consider dropping one of the close relationship feature pairs: Year and CPI, Population and Number of customers.
+Population and number of customer are related. The GSP, income and Sale revenue are closely related. The number of heating and day is related to the location of the state. The revenue columns will not be fed into the model because of the direct relationship with the sale. Consider dropping one of the close relationship feature pairs: year and CPI, population and number of customer.
 
 
 ## Machine Learning Models<a id='ml'></a> 
@@ -141,7 +146,7 @@ The figure below shows the features selected by the model for the residential, i
 
 ![](plots/fig17.png)
 
-The selected features were feed into TPOT for model selection and hyperparameter tuning. After training with the training + validation set, the model for each section achieved 0.98 - 0.99 R-square. The predictions for the three sectors are summed together, and the R-squared score is calculated against the actual data. The overall R-squared is 0.99. The picture below summarizes the model performance for each sector.
+The selected features were feed into TPOT (AutoML) for model selection and hyperparameter tuning. After training with the training + validation set, the model for each section achieved 0.98 - 0.99 R-square. The predictions for the three sectors are summed together, and the R-squared score is calculated against the actual data. The overall R-squared is 0.99. The picture below summarizes the model performance for each sector.
 
 ![](plots/fig9.png)
 
@@ -158,6 +163,8 @@ The figure below coompares the time-series prediction and the actual data for th
 
 ![](plots/fig11.png)
 
+STEO predictions have 0.9999 R-square (almost exact).
+
 Plotting the model performance on the map, we see that the model performs well on the southern states, which have high population and high consumption (blue). But the model performs poorly for the sparsely populated northern and mountain regions states (red). I may need to have a separate ML for these states in order to improve the prediction accuracy. 
 
 ![](plots/plot2.png)
@@ -165,11 +172,13 @@ Plotting the model performance on the map, we see that the model performs well o
 
 ##  Model Deployment on Heroku<a id='app'></a>  
 
-Monthly prediction, actual data and STEO from 2015 onwards are saved as a .csv file. In this application, users can observe the actual and predicted electricity consumption for a state and a sector. The application also shows the corresponding STEO prediction for that region. [Repository](https://github.com/worasom/energy_app). You can experiment with the application by through this [link](https://worasom-energy.herokuapp.com/app).
+Monthly prediction, actual data and STEO from 2015 onwards are saved as a .csv file. In this application, users can observe the actual and predicted electricity consumption for a state and a sector. The application also shows the corresponding STEO prediction for that region. [Repository](https://github.com/worasom/energy_app). You can experiment with the application by through this [link](https://worasom-energy.herokuapp.com/app). The picture below shows a screen shot of the app.
+
+![](plots/fig14.png)
 
 
 ## Summary and Future Work<a id='sum'></a> 
 
 In summary, this project aims to predict monthly electricity consumption for each state in the US using population, weather, and economic data. Separate machine learning models were constructed for each of the three main electricity consumption sectors (residential, industrial, and commercial). The models acehieved 0.98 - 0.99 r-square for each sector, which translates to approximately 0.99 overall R-squared for the total consumption. The US EIA STEO prediction has 0.9999 R-square (almost exact). The time-series predictions are compared with the actual consumption and short-term energy outlook report from the EIA website. The prediction is deployed on heroku at https://worasom-energy.herokuapp.com/app.
 
-In the next phase of the project, I will perform predictions for 2020 consumption. I will include a confidence interval for my projections. This is achieved by first projecting all features required by the models with a linear autoregressive model. For the web application, I will also improve the aesthetics of the application and include a statistical summary. In terms of model performance, I have identified some states that the models have difficulty predicting the electricity consumptions for, as shown below. I will try to improve the model performance for these states, which might be achieved by creating separates model for these states. Lastly, I plan to automate this pipeline: data acqusition, formatting, machine learning and deploying the prediction.
+In the next phase of the project, I will perform predictions for 2020 consumption. I will include a confidence interval for my projections. This is achieved by first projecting all features required by the models with a linear autoregressive model. For the web application, I will also improve the aesthetics of the application and include a statistical summary. In terms of model performance, I have identified some states that the models have difficulty predicting the electricity consumptions for, as shown below. I will try to improve the model performance for these states, which might be achieved by creating separates model for these states. Lastly, I plan to automate the analysis pipeline: data acqusition, formatting, machine learning and deploying the prediction.
