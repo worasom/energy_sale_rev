@@ -83,19 +83,31 @@ Since all models consider state population as the most important feature, it is 
 This plot shows the average electricity consumption per capita by state in 2018, segmented into residential, industrial, and commercial consumption. Within each plot, the states are first grouped by regions, then sorted by the latitude of the state. For residential consumption, one might expect that electricity consumption would be higher in the northern states, because of the necessity of heating during their long, severe winters; however, the southern states actually top the electricity consumption charts.  This suggests that the number of days that require air conditioning usage (number of cooling days) and regional information are likely important features in the model. For the industrial sector, the consumption also has a strong regional trend, again suggesting that regional information is an important feature for this sector. For the commercial sector, except for DC, the consumption is pretty uniform, thus the regional information is likely not important. 
 
 
-**Population Data**:We want to get monthly population data for each state, which does not exist. Fortunately, the St. Louis Frederal Economic Data provides some estimations based on the Census data. From projections of the US population each month, we can estimate the population for each state on a monthly basis using the annual state population data. 
+**Heating and Cooling days by State**: Heating and cooling degree day measure the dmain for energy to heat and cool the building. This is calculated and reported in the monthly weather data in ftp://ftp.ncdc.noaa.gov/pub/data/cirs/climdiv/. Each row corresponds to a year of monthly data for that state. The columns are stored in state code, and thus need to be reformatted. The data for Alaska and Hawaii is missing. 
 
-**Heating and Cooling days by State**:Monthly weather data from ftp://ftp.ncdc.noaa.gov/pub/data/cirs/climdiv/. Each row corresponds to a year of monthly data for that state. The columns are stored in state code, and thus need to be reformatted. The data for Alaska and Hawaii is missing. 
+The figure below shows heating and cooling degree days in January and July for some states.
+The data are pretty noisy and will be the major source of the model error. For the cooling degree days the slope is positive for most states, but each state has different slope. For heating degree days, both positive and negative slopes were observed. Estimating the future heating and cooling degree days would required a separated model for each state. 
 
-**Unempolyment by State**:St. Louis Frederal provides a monthly unempolyment by state, for example https://fred.stlouisfed.org/series/CAUR. After downloading the data for each state using the API, the data is reformatted.
- 
-**Personal Income by State**:St. Louis Frederal provides a quarterly total personal income by state, for example https://fred.stlouisfed.org/series/ALOTOT. The income is projected by forward fill to obtain monthly data.
-
-**Consumer Price Index US**:St. Louis Frederal summarizes a monthly consumer price index excluding food and electricity in https://fred.stlouisfed.org/series/CPILFENS. The same number is used for all states. 
+![](plots/fig18.png) ![](plots/fig19.png)
 
 **GDP per state (GSP)**:There are annual GSP by state from https://apps.bea.gov/regional/downloadzip.cfm, and quarterly GSP by state from https://fred.stlouisfed.org. The data is merged and forward fill is used to obtain monthly data.
 
-**Regional group**: EIA groups the states into sub regions. This group may be usedful as a feature and visualization. The regional group is extracted for the descrption column in EIA data. 
+**Population Data**:We want to get monthly population data for each state, which does not exist. Fortunately, the St. Louis Frederal Economic Data provides some estimations based on the Census data. From projections of the US population each month, we can estimate the population for each state on a monthly basis using the annual state population data. 
+
+ **Personal Income by State**:St. Louis Frederal provides a quarterly total personal income by state, for example https://fred.stlouisfed.org/series/ALOTOT. The income is projected by forward fill to obtain monthly data.
+
+**Consumer Price Index US**:St. Louis Frederal summarizes a monthly consumer price index excluding food and electricity in https://fred.stlouisfed.org/series/CPILFENS. The same number is used for all states. 
+
+Although the economical indicator such as Population, Personal Income, and GSP do not grow linearly with time, a short-term growth is linear as shown below. This mean shorterm future values can be estimated using linear auto-regressive model. This will be usedful for predicting future energy consumption.
+
+![](plots/fig21.png) ![](plots/fig22.png)![](plots/fig23.png)
+
+
+**Unempolyment by State**:St. Louis Frederal provides a monthly unempolyment by state, for example https://fred.stlouisfed.org/series/CAUR. After downloading the data for each state using the API, the data is reformatted.
+
+**Regional group**: EIA groups the states into sub regions. This group may be usedful as a feature and visualization. The regional group is extracted for the descrption column in EIA data. EIA's regional group are shown below.
+
+![](plots/fig20.png)
 
 ## Data Relationship<a id='epa'></a> [notebook](EPA_energy_data.ipynb)
 
