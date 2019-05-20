@@ -54,9 +54,9 @@ The data comes from the following sources:
 ## Analysis Procedure<a id='procedure'></a> 
 
 - Obtained data by downloading and using web API [notebook](https://github.com/worasom/energy_sale_rev/blob/master/api.ipynb) (selenium library).
-- Performed extensive feature engineering, cross checking the accuracy and consistency of the data. Cleaned up missing data [notebook](clean_energy_data.ipynb). The cleaned data has approximately 17000 rows, is about 13 MB in size, and can be found at [folder](https://github.com/worasom/energy_sale_rev/tree/master/clean-data). 
-- Completed exploratory data analysis [notebook](EPA_energy_data.ipynb) (pandas, numpy, seaborn). Visualize hierarchical relationship between features (scipy library) 
-- Performed feature selection and built machine learning models for the three sectors,  analyzed model performance by state [notebook](energy-ML.ipynb) (scikit-learn, TPOT libaries). Use random forest regressor and feature of importance for feature selection. Achieve 0.99 R-squared for the test set (EIA's prediction is 0.9999). Build a prediction pipeline and visualization from saved models (joblib library). Plotted interactive time-series prediction in Bokeh.
+- Performed extensive feature engineering, cross checking the accuracy and consistency of the data. Cleaned up missing data [notebook](https://github.com/worasom/energy_sale_rev/blob/master/clean_energy_data.ipynb). The cleaned data has approximately 17000 rows, is about 13 MB in size, and can be found at [folder](https://github.com/worasom/energy_sale_rev/tree/master/clean-data). 
+- Completed exploratory data analysis [notebook](https://github.com/worasom/energy_sale_rev/blob/master/EPA_energy_data.ipynb) (pandas, numpy, seaborn). Visualize hierarchical relationship between features (scipy library) 
+- Performed feature selection and built machine learning models for the three sectors,  analyzed model performance by state [notebook](https://github.com/worasom/energy_sale_rev/blob/master/energy-ML.ipynb) (scikit-learn, TPOT libaries). Use random forest regressor and feature of importance for feature selection. Achieve 0.99 R-squared for the test set (EIA's prediction is 0.9999). Build a prediction pipeline and visualization from saved models (joblib library). Plotted interactive time-series prediction in Bokeh.
 - Deployed model prediction [Repository](https://github.com/worasom/energy_app)
 
 
