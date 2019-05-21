@@ -1,6 +1,6 @@
 # Title: Predicting US Monthly Electricity Consumption 
 
-[repository](https://github.com/worasom/energy_sale_rev/)|
+[project repository](https://github.com/worasom/energy_sale_rev/)|
 [project page](https://worasom.github.io/energy_sale_rev/)|
 [Heroku app](https://worasom-energy.herokuapp.com/app)|
 [My GitHub page](https://worasom.github.io/)
