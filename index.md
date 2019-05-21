@@ -1,4 +1,9 @@
-# Predicting US Monthly Electricity Consumption by State [repository](https://github.com/worasom/energy_sale_rev/)
+# Predicting US Monthly Electricity Consumption by State 
+
+[repository](https://github.com/worasom/energy_sale_rev/)
+[project page](https://worasom.github.io/energy_sale_rev/)
+[Heroku app](https://worasom-energy.herokuapp.com/app)
+[My GitHub page](https://worasom.github.io/)
 
 Estimating electricity consumption is an important part of energy planning. The US Energy Information Administration (EIA) provides some estimations in their short-term energy outlook, [STEO](https://www.eia.gov/outlooks/steo/data/browser/). However, the report only provides regional electricity consumption and does not break the prediction down in a state-by-state basis. The goal of this project is to forecast monthly electricity consumption by state in three sectors: residential, commercial and industrial. These three sectors account for about 98.5% of total electrical consumption, as shown below. 
 
