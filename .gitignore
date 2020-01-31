@@ -15,6 +15,9 @@ q2.ipynb
 tpot_*
 *.geojson
 
+clean_data/
+shape/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
